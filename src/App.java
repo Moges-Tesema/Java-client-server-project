@@ -23,22 +23,10 @@ public class App {
         Statement getUserName = bank.createStatement();
         Statement addUser = bank.createStatement();
         Statement modify= bankAdmin.createStatement();
-        // String paramerizedQuery = "insert into user values(?,?,?,?,?,?)";
-        // PreparedStatement admin = bankAdmin.prepareStatement(paramerizedQuery);
-        // admin.setString(0, "100004....");
-        // admin.setString(1,"moges");
-        // admin.setString(2, "tesema");
-        // admin.setFloat(3,1493);
-        // admin.setString(4, "bbllaaa");
-        // admin.execute();
-
-
         String addUserQuery="INSERT INTO user VALUES('100048w9ee..','belete','marie',20000.248,'0248294','temu27')";
         String addUserQuery2="INSERT INTO user VALUES('103s8w9ee..','maralew','getu',20000.248,'0248294','temu27')";
-
         addUser.addBatch(addUserQuery);
         addUser.addBatch(addUserQuery2);
-
         addUser.executeBatch();
         /*4. execute the query
         notice: if the query is select resultSet object must be present to store geted information.
@@ -50,7 +38,6 @@ public class App {
         modify.executeUpdate(modifyUser);
        ResultSet userName= getUserName.executeQuery("select * from user");
        bank.commit();
-       
        while( userName.next()){
         String name= userName.getString("fname");
         String acount = userName.getString("account");
