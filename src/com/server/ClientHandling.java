@@ -19,7 +19,7 @@ class ClientHandling implements Runnable {
             serverResponse = new DataOutputStream(socket.getOutputStream());
             System.out.println("client request a number: " + clientRequest.readDouble());
             System.out.println("server response number is: " + 20000);
-            serverResponse.writeDouble(20000);
+            serverResponse.writeUTF("server is responding. statuscode: 200, OK");
 
         } catch (IOException e) {
             e.printStackTrace();
