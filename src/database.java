@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.lang.Thread.State;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
-public class App {
+public class database {
     public static void main(String[] args) throws Exception {
         // 1. Register driver class 
         //Class.forName("com.mysql.jdbc.Driver");
