@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class BankDB {
+    //test other branch to collaborate with other developer in githubs
     private String account, fname, lname, password, phone;
     private int balance;
     private String DBurl = "jdbc:mysql://localhost:3306/bank";
