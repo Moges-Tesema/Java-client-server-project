@@ -4,19 +4,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
-import java.sql.Statement;
 
 public class BankDB {
     //test other branch to collaborate with other developer in githubs
     private String account, fname, lname, password, phone;
-    private int balance;
+    private double amount;
     private String DBurl = "jdbc:mysql://localhost:3306/bank";
     private String DBuser = "root";
     private String DBpassword = "2124Ce1a$astu";
     Connection bank;
     
-    Statement addUser;
+    PreparedStatement addUser;
 
     public BankDB() {
         try{ 
@@ -26,14 +26,12 @@ public class BankDB {
         bank = DriverManager.getConnection(DBurl, DBuser, DBpassword);
         // 3 .create statement object
        
-        addUser = bank.createStatement();
+        addUser = bank.prepareStatement("INSERT INTO user VALUES(?,?,?,?,?,?)");
 
         bank.setAutoCommit(false);
         }catch(SQLException e){
             System.out.println("Unable to connect to database:");
         }
-
-        String addUserQuery2 = "INSERT INTO user VALUES('103s8w9ee..','maralew','getu',20000.248,'0248294','temu27')";
 
         /*
          * 4. execute the query
@@ -47,31 +45,37 @@ public class BankDB {
        
     }
 
-    void addUser(String fname, String lname,String account,String password,String phone) {
+    void addUser(String account,String fname, String lname,double amount, String phone,String password) {
     this.account=account;
     this.fname=fname;
+    this.lname=lname;
+    this.amount=amount;
+    this.phone=phone;
+    this.password=password;
     
-    String addUserQuery = "INSERT INTO user VALUES(?,?,?,?)";
     try{
-
-    
-    addUser.addBatch(addUserQuery);
-    addUser.addBatch(addUserQuery);
-    addUser.executeBatch();
+    addUser.setString(0,account);
+    addUser.setString(1, fname);
+    addUser.setString(2, lname);
+    addUser.setDouble(3, amount);
+    addUser.setString(4,phone);
+    addUser.setString(5, password);
+    addUser.executeUpdate();
     bank.commit();
     }catch(SQLException e){
         System.out.println("unable to add user:");
     }
     }
 
-    void getUser(String password) {
+    void displayUser(String password) {
         try{ 
-        Statement  getUserName = bank.createStatement();
-        ResultSet userName = getUserName.executeQuery("select * from user where passwordasd;47kl=[]");
+        PreparedStatement getUserName = bank.prepareStatement("select * from user where password=?");
+        getUserName.setString(1, password);
+        ResultSet userName = getUserName.executeQuery();
         while (userName.next()) {
             String name = userName.getString("fname");
             String acount = userName.getString("account");
-            float balance = userName.getFloat("amount");
+            Double balance = userName.getDouble("amount");
             String father = userName.getString("lname");
             String phone = userName.getString("phone");
             String passkey = userName.getString("password");
@@ -82,7 +86,7 @@ public class BankDB {
         }
         bank.close();
     }catch(SQLException e){
-            System.out.println("some thing went wrong: ");
+            System.out.println("some thing went wrong, can't get user information");
     }
 
     }

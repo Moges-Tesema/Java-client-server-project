@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.rmi.ServerException;
 import java.io.IOException;
 import com.server.ClientHandling;
+import com.database.BankDB;
 public class server {
     public static void main(String args[]) {
         int port = 5000;
@@ -16,7 +17,8 @@ public class server {
             while (true) {
 
                 socket = server.accept();
-                new Thread(new ClientHandling(socket)).start();
+                BankDB database = new BankDB();
+                new Thread(new ClientHandling(socket,database)).start();
             }
 
         } catch (ServerException e) {

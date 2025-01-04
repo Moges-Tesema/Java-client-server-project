@@ -2,8 +2,8 @@ package com.client;
 
 import java.net.Socket;
 import java.net.SocketException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.IOException;
 
 public class client {
@@ -12,18 +12,30 @@ public class client {
         int port = 5000;
 
         
+        String[] userData = new String[4];
         Socket socket = null;
-        DataOutputStream request = null;
-        DataInputStream response = null;
+        ObjectOutputStream request = null;
+        ObjectInputStream response = null;
+        
+            System.out.println("Enter User First name:");
+            userData[0] = System.console().readLine();
+            System.out.println("Enter user Last name: ");
+            userData[1] =System.console().readLine();
+            System.out.println("Enter user phone: ");
+            userData[2] =System.console().readLine();
+            System.out.println("Enter user password: ");
+            userData[3] =System.console().readLine();
+            
+        
 
         try {
             socket = new Socket(IP_address, port);
-            request = new DataOutputStream(socket.getOutputStream());
-            response = new DataInputStream(socket.getInputStream());
+            request = new ObjectOutputStream(socket.getOutputStream());
+            response = new ObjectInputStream(socket.getInputStream());
 
-            request.writeDouble(223);
+            request.writeObject(userData);
             double serverResponse = response.readDouble();
-            System.out.println("Server is responding with data: " + serverResponse);
+            System.out.println("Server is responding with Object: " + serverResponse);
         } 
         catch (SocketException e) {
             System.out.println("Socket error: " + e.getMessage());
